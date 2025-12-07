@@ -15,6 +15,7 @@ return {
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
+    event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       -- Mason must be loaded before its dependents so we need to set it up here.
@@ -209,6 +210,7 @@ return {
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
+        tsserver = {},
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
@@ -219,7 +221,7 @@ return {
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
+        ts_ls = {},
         --
 
         lua_ls = {
@@ -251,17 +253,22 @@ return {
       --
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
-      local ensure_installed = vim.tbl_keys(servers or {})
-      vim.list_extend(ensure_installed, {
-        'stylua', -- Used to format Lua code
-      })
+      local ensure_installed = {
+        'lua_ls',
+        'typescript-language-server',
+        'rust_analyzer',
+        'prettier',
+        'eslint_d',
+        'stylua',
+        'node-debug2-adapter', -- Adapter for debugging Node.js
+      }
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
         ensure_installed = {
           -- 'ts_ls',
         }, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-        automatic_installation = false,
+        -- automatic_installation = false,
         handlers = {
           function(server_name)
             local server = servers[server_name] or {}
@@ -271,10 +278,45 @@ return {
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
             require('lspconfig')[server_name].setup(server)
           end,
+
+          ['ts_ls'] = function()
+            require('lspconfig').ts_ls.setup {
+              capabilities = capabilities,
+              settings = {
+                typescript = {
+                  inlayHints = {
+                    includeInlayParameterNameHints = 'all',
+                    includeInlayFunctionParameterTypeHints = true,
+                    includeInlayVariableTypeHints = true,
+                  },
+                },
+                javascript = {
+                  inlayHints = {
+                    includeInlayParameterNameHints = 'all',
+                  },
+                },
+              },
+            }
+          end,
         },
       }
 
-      require('lspconfig').ts_ls.setup {}
+      -- vim.lsp.config.ts_ls.setup {}
+      -- Setup servers using NEW vim.lsp.config syntax
+      -- vim.lsp.config.tsserver.setup {
+      --   capabilities = capabilities,
+      --   -- your settings
+      -- }
+      -- --
+      -- vim.lsp.config.lua_ls.setup {
+      --   capabilities = capabilities,
+      --   settings = {
+      --     Lua = {
+      --       diagnostics = { globals = { 'vim' } },
+      --     },
+      --   },
+      -- }
+      -- require('lspconfig').ts_ls.setup {}
       -- require('lspconfig').rust_analyzer.setup {
       --   settings = {
       --     ['rust-analyzer'] = {

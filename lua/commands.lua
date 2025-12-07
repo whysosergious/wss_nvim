@@ -1,0 +1,7 @@
+-- vim.api.nvim_create_autocmd('SourceCmd', {
+--   pattern = vim.env.MYVIMRC or vim.fn.stdpath 'config' .. '/init.lua',
+--   callback = function()
+--     vim.cmd 'source $MYVIMRC'
+--     print '✓ Config reloaded!'
+--   end,
+-- })

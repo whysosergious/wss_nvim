@@ -38,18 +38,7 @@ require 'lazy-bootstrap'
 -- [[ Configure and install plugins ]]
 require 'lazy-plugins'
 
+require 'commands'
+
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
-
--- other setup TODO: move this somewhere proper
-
-local cmp = require 'cmp'
-
-cmp.setup {
-  mapping = {
-    ['<CR>'] = cmp.mapping.confirm { select = true }, -- Accept currently selected item
-    ['<Tab>'] = cmp.mapping.select_next_item(), -- Navigate to next item
-    ['<S-Tab>'] = cmp.mapping.select_prev_item(), -- Navigate to previous item
-  },
-  -- ... other configurations
-}
