@@ -1,0 +1,90 @@
+return {
+  -- require 'fs/oil',
+  {
+    'stevearc/oil.nvim',
+    ---@module 'oil'
+    -- --@type oil.SetupOpts
+    opts = {},
+    -- Optional dependencies
+    dependencies = { { 'echasnovski/mini.icons', opts = {} } },
+    -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
+    -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+    lazy = false,
+    config = function()
+      require('oil').setup {
+        view_options = {
+          show_hidden = true,
+        },
+      }
+    end,
+  },
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^4', -- Use the latest stable version
+    ft = { 'rust' },
+    config = function()
+      vim.g.rustaceanvim = {
+        tools = {
+          inlay_hints = {
+            auto = true,
+          },
+        },
+      }
+    end,
+  },
+  {
+    'jackMort/ChatGPT.nvim',
+    event = 'VeryLazy',
+    config = function()
+      require('chatgpt').setup {
+        openai_params = {
+          -- NOTE: model can be a function returning the model name
+          -- this is useful if you want to change the model on the fly
+          -- using commands
+          -- Example:
+          -- model = function()
+          --     if some_condition() then
+          --         return "gpt-4-1106-preview"
+          --     else
+          --         return "gpt-3.5-turbo"
+          --     end
+          -- end,
+          model = 'gpt-4-1106-preview',
+          frequency_penalty = 0,
+          presence_penalty = 0,
+          max_tokens = 4095,
+          temperature = 0.2,
+          top_p = 0.1,
+          n = 1,
+        }, -- Optional configuration
+      }
+    end,
+    dependencies = {
+      'MunifTanjim/nui.nvim',
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+    },
+  },
+
+  {
+    'Robitx/gp.nvim',
+    config = function()
+      require('gp').setup {
+        -- configuration options
+      }
+    end,
+  },
+  {
+    'TabbyML/vim-tabby',
+    lazy = false,
+    dependencies = {
+      'neovim/nvim-lspconfig',
+    },
+    init = function()
+      vim.g.tabby_agent_start_command = { 'tabby-agent', '--stdio' }
+      -- vim.g.tabby_inline_completion_trigger = 'auto'
+      vim.g.tabby_inline_completion_trigger = 'manual'
+      vim.g.tabby_inline_completion_keybinding_accept = '<C-CR>'
+    end,
+  },
+}
