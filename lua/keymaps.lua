@@ -67,7 +67,6 @@ vim.keymap.set('n', '<leader>oth', '<CMD>split | terminal<CR>20<C-w>-i', { desc 
 vim.keymap.set('n', '<leader>otv', '<CMD>vsplit | terminal<CR>20<C-w><i', { desc = '[v]ertical' })
 
 -- geepity
-vim.keymap.set('n', '<leader>og', '<CMD>ChatGPT<CR>', { desc = 'geepity' })
 
 -------------------------------------------------
 -- group: navigation
