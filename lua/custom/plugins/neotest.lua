@@ -9,6 +9,10 @@ return {
       'nvim-neotest/neotest-jest',
       'marilari88/neotest-vitest',
       'arthur944/neotest-bun',
+      'nvim-neotest/neotest-go',
+      'mrcjkb/rustaceanvim',
+      'lawrence-laz/neotest-zig',
+      'rcasia/neotest-bash',
     },
     keys = {
       { '<leader>tr', '<cmd>Neotest run<cr>', desc = '[t]est [r]un' },
@@ -25,6 +29,10 @@ return {
           require 'neotest-jest',
           require 'neotest-vitest',
           require 'neotest-bun',
+          require 'neotest-go',
+          require('rustaceanvim.neotest'),
+          require 'neotest-zig',
+          require 'neotest-bash',
         },
       }
     end,
