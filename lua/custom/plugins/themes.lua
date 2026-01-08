@@ -85,7 +85,7 @@ return {
         ---@param hp Helper
         -- override = function(cs: Colorscheme, p: ColorschemeOptions, Config: MonokaiProOptions, hp: Helper) end,
       }
-      vim.cmd.colorscheme 'monokai-pro'
+      vim.cmd.colorscheme 'catppuccin-mocha'
     end,
   },
   'folke/tokyonight.nvim', -- No longer default, so just list it

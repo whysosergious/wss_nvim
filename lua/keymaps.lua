@@ -59,6 +59,8 @@ vim.keymap.set('n', '-', '<CMD>Oil<CR>', { desc = 'Open parent directory' })
 -------------------------------------------------
 vim.keymap.set('n', '<leader>o', '', { desc = '[o]pen' })
 
+vim.keymap.set('n', '<leader>oe', '<CMD>Neotree toggle<CR>', { desc = '[e]xplorer' })
+
 -- terminal
 vim.keymap.set('n', '<leader>ot', '', { desc = '[t]erminal split' })
 vim.keymap.set('n', '<leader>oth', '<CMD>split | terminal<CR>20<C-w>-i', { desc = '[h]orizontal' })
