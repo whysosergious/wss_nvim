@@ -1,120 +1,121 @@
--- This file configures the debugging environment using nvim-dap.
--- https://github.com/mfussenegger/nvim-dap
-
-return {
-  {
-    -- Core Debug Adapter Protocol client
-    'mfussenegger/nvim-dap',
-    dependencies = {
-      -- Installs the debug adapters for you
-      'williamboman/mason.nvim',
-      'WhoIsSethDaniel/mason-tool-installer.nvim',
-
-      -- A UI for nvim-dap
-      'rcarriga/nvim-dap-ui',
-      'nvim-neotest/nvim-nio', -- Required by nvim-dap-ui
-    },
-    config = function()
-      local dap = require 'dap'
-      local dapui = require 'dapui'
-
-      -- Configure the DAP UI
-      dapui.setup {
-        -- You can customize the layout, icons, etc. here
-        -- For now, we'll use the defaults.
-      }
-
-      -- Setup listeners to automatically open/close the DAP UI when a session starts/stops
-      dap.listeners.after.event_initialized['dapui_config'] = function()
-        dapui.open()
-      end
-      dap.listeners.before.event_terminated['dapui_config'] = function()
-        dapui.close()
-      end
-      dap.listeners.before.event_exited['dapui_config'] = function()
-        dapui.close()
-      end
-
-      --- --- --- --- --- ---
-      -- ADAPTER CONFIGS --
-      --- --- --- --- --- ---
-
-      -- Node.js adapter (requires 'node-debug2-adapter' from Mason)
-      -- This setup finds the path to the adapter dynamically using mason-registry
-      local node_adapter_pkg = require('mason-registry').get_package('node-debug2-adapter')
-      if node_adapter_pkg:is_installed() then
-        dap.adapters.node2 = {
-          type = 'executable',
-          command = 'node',
-          args = { node_adapter_pkg:get_install_path() .. '/out/src/nodeDebug.js' },
-        }
-      end
-
-      -- Deno adapter (uses Deno's built-in DAP server via LSP)
-      dap.adapters.deno = {
-        type = 'server',
-        port = '${port}',
-        executable = {
-          command = 'deno',
-          args = { 'lsp', '--quiet' },
-        },
-      }
-
-      --- --- --- --- --- ---
-      -- LANGUAGE CONFIGS --
-      --- --- --- --- --- ---
-
-      -- Configuration for running/debugging JavaScript and TypeScript files with Node
-      dap.configurations.javascript = {
-        {
-          name = 'Launch Node File',
-          type = 'node2',
-          request = 'launch',
-          program = '${file}',
-          cwd = vim.fn.getcwd(),
-          sourceMaps = true,
-          protocol = 'inspector',
-          console = 'integratedTerminal',
-        },
-      }
-      dap.configurations.typescript = dap.configurations.javascript
-
-      -- Configuration for running/debugging JavaScript and TypeScript files with Deno
-      -- To use this, you can start debugging and select 'Launch Deno File'
-      table.insert(dap.configurations.javascript, {
-        name = 'Launch Deno File',
-        type = 'deno',
-        request = 'launch',
-        __deno_autoselect_workspace = true,
-        program = '${file}',
-        cwd = '${workspaceFolder}',
-        attach = {
-          ws = true,
-        },
-      })
-
-      --- --- --- ---
-      -- KEYMAPS --
-      --- --- --- ---
-
-      local map = vim.keymap.set
-      local opts = { silent = true }
-
-      -- All keymaps are prefixed with <leader>d
-      map('n', '<leader>db', dap.toggle_breakpoint, { desc = '[D]ebug: Toggle [B]reakpoint' })
-      map('n', '<leader>dB', function()
-        dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
-      end, { desc = '[D]ebug: Set Conditional [B]reakpoint' })
-
-      map('n', '<leader>dc', dap.continue, { desc = '[D]ebug: [C]ontinue' })
-      map('n', '<leader>dC', dap.disconnect, { desc = '[D]ebug: Dis[c]onnect' })
-      map('n', '<leader>dr', dap.repl.open, { desc = '[D]ebug: Open [R]EPL' })
-
-      map('n', '<leader>dj', dap.step_over, { desc = '[D]ebug: Step Over (j)' })
-      map('n', '<leader>dk', dap.step_into, { desc = '[D]ebug: Step Into (k)' })
-      map('n', '<leader>do', dap.step_out, { desc = '[D]ebug: Step [O]ut' })
-
-      map('n', '<leader>dU', dapui.toggle, { desc = '[D]ebug: Toggle [U]I' })
-    end,
-  },
-}
+return {}
+-- -- This file configures the debugging environment using nvim-dap.
+-- -- https://github.com/mfussenegger/nvim-dap
+--
+-- return {
+--   {
+--     -- Core Debug Adapter Protocol client
+--     'mfussenegger/nvim-dap',
+--     dependencies = {
+--       -- Installs the debug adapters for you
+--       'williamboman/mason.nvim',
+--       'WhoIsSethDaniel/mason-tool-installer.nvim',
+--
+--       -- A UI for nvim-dap
+--       'rcarriga/nvim-dap-ui',
+--       'nvim-neotest/nvim-nio', -- Required by nvim-dap-ui
+--     },
+--     config = function()
+--       local dap = require 'dap'
+--       local dapui = require 'dapui'
+--
+--       -- Configure the DAP UI
+--       dapui.setup {
+--         -- You can customize the layout, icons, etc. here
+--         -- For now, we'll use the defaults.
+--       }
+--
+--       -- Setup listeners to automatically open/close the DAP UI when a session starts/stops
+--       dap.listeners.after.event_initialized['dapui_config'] = function()
+--         dapui.open()
+--       end
+--       dap.listeners.before.event_terminated['dapui_config'] = function()
+--         dapui.close()
+--       end
+--       dap.listeners.before.event_exited['dapui_config'] = function()
+--         dapui.close()
+--       end
+--
+--       --- --- --- --- --- ---
+--       -- ADAPTER CONFIGS --
+--       --- --- --- --- --- ---
+--
+--       -- Node.js adapter (requires 'node-debug2-adapter' from Mason)
+--       -- This setup finds the path to the adapter dynamically using mason-registry
+--       local node_adapter_pkg = require('mason-registry').get_package('node-debug2-adapter')
+--       if node_adapter_pkg:is_installed() then
+--         dap.adapters.node2 = {
+--           type = 'executable',
+--           command = 'node',
+--           args = { node_adapter_pkg:get_install_path() .. '/out/src/nodeDebug.js' },
+--         }
+--       end
+--
+--       -- Deno adapter (uses Deno's built-in DAP server via LSP)
+--       dap.adapters.deno = {
+--         type = 'server',
+--         port = '${port}',
+--         executable = {
+--           command = 'deno',
+--           args = { 'lsp', '--quiet' },
+--         },
+--       }
+--
+--       --- --- --- --- --- ---
+--       -- LANGUAGE CONFIGS --
+--       --- --- --- --- --- ---
+--
+--       -- Configuration for running/debugging JavaScript and TypeScript files with Node
+--       dap.configurations.javascript = {
+--         {
+--           name = 'Launch Node File',
+--           type = 'node2',
+--           request = 'launch',
+--           program = '${file}',
+--           cwd = vim.fn.getcwd(),
+--           sourceMaps = true,
+--           protocol = 'inspector',
+--           console = 'integratedTerminal',
+--         },
+--       }
+--       dap.configurations.typescript = dap.configurations.javascript
+--
+--       -- Configuration for running/debugging JavaScript and TypeScript files with Deno
+--       -- To use this, you can start debugging and select 'Launch Deno File'
+--       table.insert(dap.configurations.javascript, {
+--         name = 'Launch Deno File',
+--         type = 'deno',
+--         request = 'launch',
+--         __deno_autoselect_workspace = true,
+--         program = '${file}',
+--         cwd = '${workspaceFolder}',
+--         attach = {
+--           ws = true,
+--         },
+--       })
+--
+--       --- --- --- ---
+--       -- KEYMAPS --
+--       --- --- --- ---
+--
+--       local map = vim.keymap.set
+--       local opts = { silent = true }
+--
+--       -- All keymaps are prefixed with <leader>d
+--       map('n', '<leader>db', dap.toggle_breakpoint, { desc = '[D]ebug: Toggle [B]reakpoint' })
+--       map('n', '<leader>dB', function()
+--         dap.set_breakpoint(vim.fn.input 'Breakpoint condition: ')
+--       end, { desc = '[D]ebug: Set Conditional [B]reakpoint' })
+--
+--       map('n', '<leader>dc', dap.continue, { desc = '[D]ebug: [C]ontinue' })
+--       map('n', '<leader>dC', dap.disconnect, { desc = '[D]ebug: Dis[c]onnect' })
+--       map('n', '<leader>dr', dap.repl.open, { desc = '[D]ebug: Open [R]EPL' })
+--
+--       map('n', '<leader>dj', dap.step_over, { desc = '[D]ebug: Step Over (j)' })
+--       map('n', '<leader>dk', dap.step_into, { desc = '[D]ebug: Step Into (k)' })
+--       map('n', '<leader>do', dap.step_out, { desc = '[D]ebug: Step [O]ut' })
+--
+--       map('n', '<leader>dU', dapui.toggle, { desc = '[D]ebug: Toggle [U]I' })
+--     end,
+--   },
+-- }

@@ -1,130 +1,60 @@
-# Gemini Analysis of your Neovim Configuration
+# Neovim Configuration
 
-This document provides an analysis of your Neovim configuration and offers suggestions for improvement and restructuring.
+## Project Overview
 
-## 1. Project Overview
+This is a personal Neovim configuration. It uses `lazy.nvim` for plugin management and is structured in a modular way. The configuration is written in Lua.
 
-This is a Neovim configuration project written in Lua. It is based on the popular `kickstart.nvim` template, which provides a solid and performant foundation.
+The configuration is based on the `kickstart.nvim` template, with personal customizations and additional plugins.
 
-*   **Plugin Manager**: `lazy.nvim` is used for efficient, declarative plugin management.
-*   **Core Structure**: The configuration is modular, with logic separated into `options.lua`, `keymaps.lua`, and a `lazy-plugins.lua` entry point.
-*   **Customization**: You are correctly using the `{ import = 'custom.plugins' }` feature of `lazy.nvim` to load personalized plugins and settings from the `lua/custom/plugins/` directory. This is an excellent practice for maintainability.
-*   **Key Technologies**:
-    *   **LSP & Completion**: `nvim-lspconfig` and `nvim-cmp` for code intelligence.
-    *   **Formatting**: `conform.nvim` for code formatting.
-    *   **Fuzzy Finding**: `telescope.nvim`.
-    *   **File Navigation**: `oil.nvim` is used for buffer-centric file browsing, which is a deliberate and lightweight choice over the disabled `neo-tree.lua`.
-    *   **Syntax Parsing**: `nvim-treesitter` for fast and accurate code highlighting and parsing.
-    *   **AI Integration**: An OpenAI API key is being loaded from your environment, indicating an interest in AI-powered tooling.
+## Key Technologies
 
----
+*   **Neovim:** The text editor.
+*   **Lua:** The language used for configuration.
+*   **lazy.nvim:** The plugin manager.
 
-## 2. Suggestions for Improvement
+## Building and Running
 
-Your setup is already very good. The following suggestions are aimed at refining the structure and adding functionality that aligns with your existing choices.
+There is no build process for this project. To use this configuration, you need to have Neovim installed.
 
-### Suggestion 1: Consolidate `nvim-cmp` Configuration
+1.  Clone this repository to `~/.config/nvim`.
+2.  Start Neovim. `lazy.nvim` will automatically install the configured plugins.
 
-You currently have a `cmp.setup{...}` block in your `init.lua`. This overrides the default `kickstart` configuration for the completion plugin but is disconnected from the plugin's declaration in `lazy.nvim`.
+To update the plugins, run the following command in Neovim:
 
-**Recommendation:**
-Move the `cmp` configuration from `init.lua` into the plugin's `opts` table within the `kickstart/plugins/cmp.lua` file. This centralizes the configuration and makes it easier to manage.
-
-**Example (`lua/kickstart/plugins/cmp.lua`):**
-```lua
-return {
-  'hrsh7th/nvim-cmp',
-  -- ... other dependencies
-  opts = function()
-    local cmp = require 'cmp'
-    -- Your custom mapping from init.lua can be merged here
-    return {
-      mapping = {
-        ['<CR>'] = cmp.mapping.confirm { select = true },
-        ['<Tab>'] = cmp.mapping.select_next_item(),
-        ['<S-Tab>'] = cmp.mapping.select_prev_item(),
-        -- You can keep or merge other default mappings from the original file
-      },
-      -- ... other cmp settings like sources, etc.
-    }
-  end,
-  -- ...
-}
 ```
-*After moving the configuration, you can remove the `cmp.setup()` call from your `init.lua`.*
-
-### Suggestion 2: Enhance `oil.nvim` Ergonomics
-
-`oil.nvim` is powerful because it treats the filesystem like a regular buffer. You can make it even better by setting a default keymap to open it.
-
-**Recommendation:**
-Add a keymap in `keymaps.lua` to open `oil` in the current directory. The most common binding for this is `-` (hyphen).
-
-**Example (`lua/keymaps.lua`):**
-```lua
--- Add this to your keymaps.lua
-vim.keymap.set('n', '-', '<CMD>oil<CR>', { desc = 'Open parent directory' })
+:Lazy update
 ```
 
-### Suggestion 3: Add AI and Quality-of-Life Plugins
+## Development Conventions
 
-Based on your setup, here are some plugins you might find useful. You can add them in your `lua/custom/plugins/` directory.
+The configuration is structured in a modular way.
 
-**A) AI Assistant (Copilot)**
-Since you are already loading an OpenAI key, you might be interested in an AI coding assistant. `Copilot.lua` is a popular choice.
+*   `init.lua`: The main entry point.
+*   `lua/options.lua`: Global Neovim options.
+*   `lua/keymaps.lua`: Global key mappings.
+*   `lua/lazy-plugins.lua`: The main plugin configuration file for `lazy.nvim`.
+*   `lua/kickstart/plugins/`: Contains the base plugins from the `kickstart.nvim` template.
+*   `lua/custom/plugins/`: Contains personal plugin configurations.
 
-*File: `lua/custom/plugins/ai.lua`*
-```lua
-return {
-  'github/copilot.lua',
-  cmd = 'Copilot',
-  event = 'InsertEnter',
-  config = function()
-    require('copilot').setup({
-      -- You can configure it here if needed
-      -- For example, to disable auto-start:
-      -- suggestion = { enabled = false },
-      -- panel = { enabled = false },
-    })
-  end,
-}
-```
+Any new plugin configuration should be added as a new file in the `lua/custom/plugins/` directory.
 
-**B) Automatic Pair Completion (`nvim-autopairs`)**
-This is a small utility that automatically closes parentheses, brackets, quotes, etc. It was disabled in your `lazy-plugins.lua` but is a common productivity booster.
+### Key Plugins
 
-*File: `lua/custom/plugins/autopairs.lua`*
-```lua
-return {
-  'windwp/nvim-autopairs',
-  event = 'InsertEnter',
-  opts = {} -- Accepts default configuration
-}
-```
+*   **gitsigns:** Git integration.
+*   **which-key:** Shows a popup with possible keybindings.
+*   **lspconfig:** Configures the built-in LSP client.
+*   **conform:** A code formatter.
+*   **cmp:** A completion engine.
+*   **todo-comments:** Highlights and searches for TODO comments.
+*   **mini.nvim:** A collection of minimal plugins.
+*   **treesitter:** For syntax highlighting and code parsing.
+*   **oil.nvim:** A file manager.
+*   **ChatGPT.nvim:** An integration with OpenAI's GPT models.
 
-**C) Indentation Guides (`indent-blankline.nvim`)**
-This plugin adds indentation guides, making code easier to read. It was also disabled in your `lazy-plugins.lua`.
+### Customizations
 
-*File: `lua/custom/plugins/ui.lua`*
-```lua
-return {
-  'lukas-reineke/indent-blankline.nvim',
-  main = 'ibl',
-  opts = {}
-}
-```
-*You can add the above snippet to a new `ui.lua` file or another organizational file of your choice.*
-
-### Suggestion 4: Future-Proof Your Custom Plugin Structure
-
-Your use of `custom/plugins/fs/oil.lua` is a great start. As you add more plugins, consider organizing them by category to keep your configuration tidy.
-
-**Recommended Structure:**
-```
-lua/custom/plugins/
-├── ai.lua         -- For Copilot, etc.
-├── editing.lua    -- For autopairs, formatters, etc.
-├── ui.lua         -- For themes, icons, indent lines.
-└── telescope.lua  -- For Telescope extensions.
-```
-This is a suggestion for the future as your config grows. What you have now is perfectly fine.
+*   The shell is set to `nu` (Nushell).
+*   The leader key is set to the space bar.
+*   Custom key mappings for window navigation, terminal splits, and more.
+*   Specific key mappings for paragraph navigation using 'ä' and 'å'.
+*   Visual mode indentation with `Tab` and `Shift-Tab`.
