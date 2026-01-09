@@ -66,6 +66,8 @@ vim.keymap.set('n', '<leader>ot', '', { desc = '[t]erminal split' })
 vim.keymap.set('n', '<leader>oth', '<CMD>split | terminal<CR>20<C-w>-i', { desc = '[h]orizontal' })
 vim.keymap.set('n', '<leader>otv', '<CMD>vsplit | terminal<CR>20<C-w><i', { desc = '[v]ertical' })
 
+vim.keymap.set('n', '<leader>tn', '<CMD>tabnew<CR>', { desc = '[t]ab [n]ew' })
+
 -- geepity
 
 -------------------------------------------------
