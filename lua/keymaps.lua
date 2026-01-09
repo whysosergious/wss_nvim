@@ -91,3 +91,9 @@ vim.keymap.set('v', '<S-Tab>', '<gv', { noremap = true, silent = true })
 -------------------------------------------------
 vim.keymap.set('n', '<leader>kk', '<cmd>edit lua/keymaps.lua<CR>', { desc = '[K]eymap [K]eymaps File' })
 vim.keymap.set('n', '<leader>kr', '<cmd>ReloadKeys<cr>', { desc = '[K]eymap [R]eload' })
+
+-------------------------------------------------
+-- Formatting
+-------------------------------------------------
+vim.keymap.set('n', '<leader>f', '', { desc = '[f]ormat' })
+vim.keymap.set('n', '<leader>fi', '<cmd>ConformInfo<cr>', { desc = '[f]ormat [i]nfo' })
