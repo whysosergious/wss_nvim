@@ -85,3 +85,9 @@ vim.keymap.set('v', '<Tab>', '>gv', { noremap = true, silent = true })
 
 -- Dedent with Shift-Tab in visual mode
 vim.keymap.set('v', '<S-Tab>', '<gv', { noremap = true, silent = true })
+
+-------------------------------------------------
+-- Keymap Management
+-------------------------------------------------
+vim.keymap.set('n', '<leader>kk', '<cmd>edit lua/keymaps.lua<CR>', { desc = '[K]eymap [K]eymaps File' })
+vim.keymap.set('n', '<leader>kr', '<cmd>ReloadKeys<cr>', { desc = '[K]eymap [R]eload' })
