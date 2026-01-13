@@ -89,7 +89,7 @@ vim.keymap.set('v', '<S-Tab>', '<gv', { noremap = true, silent = true })
 -------------------------------------------------
 -- Keymap Management
 -------------------------------------------------
-vim.keymap.set('n', '<leader>kk', '<cmd>edit lua/keymaps.lua<CR>', { desc = '[K]eymap [K]eymaps File' })
+vim.keymap.set('n', '<leader>kk', '<cmd>edit ' .. vim.fn.stdpath('config') .. '/lua/keymaps.lua<CR>', { desc = '[K]eymap [K]eymaps File' })
 vim.keymap.set('n', '<leader>kc', '<cmd>edit lua/custom/plugins/code_runner.lua<CR>', { desc = '[K]eymap [C]ode Runner File' })
 vim.keymap.set('n', '<leader>kr', '<cmd>ReloadKeys<cr>', { desc = '[K]eymap [R]eload' })
 
