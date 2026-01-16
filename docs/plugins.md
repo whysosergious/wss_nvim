@@ -54,6 +54,12 @@ These plugins are configured in the `lua/custom/plugins/` directory.
 | `stevearc/conform.nvim`                    | A plugin for formatting code.             |
 | `CRAG666/code_runner.nvim`                 | A plugin for running code.                |
 | `akinsho/bufferline.nvim`                  | A line of buffers at the top of the editor. |
+| `folke/trouble.nvim`                       | A pretty list for diagnostics, references, and more. |
+| `RRethy/vim-illuminate`                    | Highlights other uses of the word under the cursor. |
+| `tpope/vim-surround`                       | A plugin for working with "surroundings" like parentheses, brackets, and quotes. |
+| `tpope/vim-fugitive`                       | A Git wrapper for Vim.                    |
+| `rmagatti/auto-session`                    | A session manager for Neovim.             |
+| `rmagatti/session-lens`                    | A session manager UI for Telescope.       |
 
 ## Kickstart Plugins
 
