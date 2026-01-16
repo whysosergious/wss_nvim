@@ -60,6 +60,10 @@ These plugins are configured in the `lua/custom/plugins/` directory.
 | `tpope/vim-fugitive`                       | A Git wrapper for Vim.                    |
 | `rmagatti/auto-session`                    | A session manager for Neovim.             |
 | `rmagatti/session-lens`                    | A session manager UI for Telescope.       |
+| `sindrets/diffview.nvim`                   | A better diff view for Git.               |
+| `stevearc/dressing.nvim`                   | A UI for `vim.ui.input()` and `vim.ui.select()`. |
+| `rcarriga/nvim-notify`                     | A prettier notification manager.          |
+| `mbbill/undotree`                          | A visual undo tree.                       |
 
 ## Kickstart Plugins
 
