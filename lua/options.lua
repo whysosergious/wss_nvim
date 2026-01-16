@@ -76,6 +76,10 @@ vim.opt.scrolloff = 10
 -- See `:help 'confirm'`
 vim.opt.confirm = true
 
+-- Folding
+-- moved to autocmds.lua
+vim.opt.foldlevelstart = 99
+
 -- vim: ts=2 sts=2 sw=2 et
 
 -- remove '_' from iskeyword to treat '_' as a separator
