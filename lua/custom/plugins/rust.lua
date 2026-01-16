@@ -1,16 +1,32 @@
 return {
-  {
-    'mrcjkb/rustaceanvim',
-    version = '^4', -- Use the latest stable version
-    ft = { 'rust' },
-    config = function()
-      vim.g.rustaceanvim = {
-        tools = {
-          inlay_hints = {
-            auto = true,
-          },
-        },
-      }
-    end,
-  },
+  -- "mrcjkb/rustaceanvim",
+  -- version = "^4",
+  -- ft = { "rust" },
+  -- build = function()
+  --   local install_cmd = "cargo xtask install --server && cargo xtask install --adapter"
+  --   local job = vim.fn.jobstart(install_cmd, {
+  --     cwd = vim.fn.stdpath("data") .. "/lazy/rustaceanvim",
+  --     on_stderr = function(_, data, _)
+  --       if data then
+  --         vim.notify("Rustaceanvim build error: " .. table.concat(data, "\n"), vim.log.levels.ERROR)
+  --       end
+  --     end,
+  --     on_stdout = function(_, data, _)
+  --       if data then
+  --         vim.notify("Rustaceanvim build output: " .. table.concat(data, "\n"), vim.log.levels.INFO)
+  --       end
+  --     end,
+  --     on_exit = function(code, _, _)
+  --       if code ~= 0 then
+  --         vim.notify("Rustaceanvim build failed with exit code: " .. code, vim.log.levels.ERROR)
+  --       else
+  --         vim.notify("Rustaceanvim build successful!", vim.log.levels.INFO)
+  --       end
+  --     end,
+  --   })
+  --   if job == 0 then
+  --     vim.notify("Failed to start rustaceanvim build job. Is cargo in PATH?", vim.log.levels.ERROR)
+  --   end
+  -- end,
+  -- lazy = false,
 }
