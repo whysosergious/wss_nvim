@@ -10,8 +10,8 @@ return {
       ['Find Prev'] = '<',
       ['Goto Next'] = 'g>',
       ['Goto Prev'] = 'g<',
-      ['Add Cursor Down'] = '<M-j>',
-      ['Add Cursor Up'] = '<M-k>',
+      ['Add Cursor Down'] = '<M-J>',
+      ['Add Cursor Up'] = '<M-K>',
       ['Select All'] = '<M-a>',
     }
     vim.g.VM_highlight_matches = 'VM_Green'

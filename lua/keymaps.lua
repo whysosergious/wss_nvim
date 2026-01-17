@@ -89,7 +89,7 @@ vim.keymap.set('v', '<S-Tab>', '<gv', { noremap = true, silent = true })
 -------------------------------------------------
 -- Keymap Management
 -------------------------------------------------
-vim.keymap.set('n', '<leader>kk', '<cmd>edit ' .. vim.fn.stdpath('config') .. '/lua/keymaps.lua<CR>', { desc = '[K]eymap [K]eymaps File' })
+vim.keymap.set('n', '<leader>kk', '<cmd>edit ' .. vim.fn.stdpath 'config' .. '/lua/keymaps.lua<CR>', { desc = '[K]eymap [K]eymaps File' })
 vim.keymap.set('n', '<leader>kc', '<cmd>edit lua/custom/plugins/code_runner.lua<CR>', { desc = '[K]eymap [C]ode Runner File' })
 vim.keymap.set('n', '<leader>kr', '<cmd>ReloadKeys<cr>', { desc = '[K]eymap [R]eload' })
 
@@ -98,3 +98,18 @@ vim.keymap.set('n', '<leader>kr', '<cmd>ReloadKeys<cr>', { desc = '[K]eymap [R]e
 -------------------------------------------------
 vim.keymap.set('n', '<leader>f', '', { desc = '[f]ormat' })
 vim.keymap.set('n', '<leader>fi', '<cmd>ConformInfo<cr>', { desc = '[f]ormat [i]nfo' })
+
+-------------------------------------------------
+-- Moving lines/selection
+-------------------------------------------------
+-- Move current line up/down
+vim.keymap.set('n', '<A-j>', ':m .+1<CR>==', { silent = true })
+vim.keymap.set('n', '<A-k>', ':m .-2<CR>==', { silent = true })
+
+-- Move current line up/down in insert mode
+vim.keymap.set('i', '<A-j>', '<Esc>:m .+1<CR>==gi', { silent = true })
+vim.keymap.set('i', '<A-k>', '<Esc>:m .-2<CR>==gi', { silent = true })
+
+-- Move selected lines up/down in visual mode
+vim.keymap.set('v', '<A-j>', ":m '>+1<CR>gv=gv", { silent = true })
+vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv", { silent = true })
