@@ -113,3 +113,10 @@ vim.keymap.set('i', '<A-k>', '<Esc>:m .-2<CR>==gi', { silent = true })
 -- Move selected lines up/down in visual mode
 vim.keymap.set('v', '<A-j>', ":m '>+1<CR>gv=gv", { silent = true })
 vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv", { silent = true })
+
+-------------------------------------------------
+-- remapping
+-------------------------------------------------
+-- flip goto start of line and start of line Indent
+vim.keymap.set('n', '0', '_', { noremap = true })
+vim.keymap.set('n', '_', '0', { noremap = true })
