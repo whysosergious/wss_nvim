@@ -98,6 +98,5 @@ return {
   'marko-cerovac/material.nvim',
   'Everblush/everblush.nvim',
   'sainnhe/sonokai',
-  'nyoom-engineering/oxocarbon.nvim',
   'nordtheme/vim',
 }
