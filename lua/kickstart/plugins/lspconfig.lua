@@ -267,6 +267,13 @@ return {
         'eslint_d',
         'stylua',
         'node-debug2-adapter', -- Adapter for debugging Node.js
+        -- C# / .NET backend stack
+        'roslyn', -- C# + Razor language server (Crashdummyy registry, same as VS Code)
+        'html-lsp', -- Required by roslyn.nvim for Razor co-hosting
+        'netcoredbg', -- C# debug adapter (also used by mason-nvim-dap)
+        'csharpier', -- C# formatter
+        -- SQL
+        'sql-formatter', -- SQL formatter
       }
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 

@@ -1,0 +1,5 @@
+# Saved vim-dadbod connections may contain connection strings with passwords.
+# Keep query/breadcrumbs out of git.
+db_connections/
+db_connections.*
+*.local.env

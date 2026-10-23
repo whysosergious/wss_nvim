@@ -19,6 +19,10 @@ return {
         json = { 'prettier' },
         yaml = { 'prettier' },
         markdown = { 'prettier' },
+        -- C#: csharpier (installed via Mason)
+        cs = { 'csharpier' },
+        -- SQL: sql-formatter (installed via Mason)
+        sql = { 'sql_formatter' },
         -- You can add other formatters for other languages here
       },
     },

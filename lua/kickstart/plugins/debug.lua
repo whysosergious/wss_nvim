@@ -95,8 +95,58 @@ return {
         -- Update this to ensure that you have the debuggers for the langs you want
         'codelldb',
         'node-debug2-adapter',
+        'netcoredbg', -- C#/.NET debugger
       },
     }
+
+    -- C#/.NET debugger adapter (netcoredbg, installed by Mason)
+    local ok, mason_reg = pcall(require, 'mason-registry')
+    if ok and mason_reg.is_installed 'netcoredbg' then
+      local netcoredbg_path = mason_reg.get_install_path 'netcoredbg'
+
+      dap.adapters.coreclr = {
+        type = 'executable',
+        command = netcoredbg_path .. '/netcoredbg/netcoredbg',
+        args = { '--interpreter=vscode' },
+      }
+      dap.adapters.netcoredbg = dap.adapters.coreclr
+
+      dap.configurations.cs = {
+        {
+          name = 'Launch .NET dll (coreclr)',
+          type = 'netcoredbg',
+          request = 'launch',
+          program = function()
+            -- Default: the dll matching the csproj name at the workspace root,
+            -- built into a bin/Debug folder
+            local csproj = vim.fn.glob(vim.fn.getcwd() .. '/*.csproj', false, true)
+            local proj_name = csproj ~= '' and vim.fn.fnamemodify(vim.split(csproj, '\n', { trimempty = true })[1], ':t:r') or '*'
+            local dlls = vim.split(vim.fn.glob(vim.fn.getcwd() .. '/**/bin/**/Debug/**/' .. proj_name .. '.dll', false, true), '\n', { trimempty = true })
+            table.sort(dlls, function(a, b)
+              return vim.fn.getftime(a) > vim.fn.getftime(b)
+            end)
+            return vim.fn.input('Path to dll: ', #dlls > 0 and dlls[1] or vim.fn.getcwd() .. '/', 'file')
+          end,
+          cwd = '${workspaceFolder}',
+          stopAtEntry = false,
+          env = {
+            ASPNETCORE_ENVIRONMENT = 'Development',
+          },
+          console = 'internalConsole',
+        },
+        {
+          name = 'Attach to .NET process',
+          type = 'netcoredbg',
+          request = 'attach',
+          processId = function()
+            return require('dap.ui.widgets').pick_process {
+              filter = 'dotnet',
+            }
+          end,
+        },
+      }
+      dap.configurations.csharp = dap.configurations.cs
+    end
 
     -- Dap UI setup
     -- For more information, see |:help nvim-dap-ui|
